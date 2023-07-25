@@ -1,0 +1,20 @@
+FROM kong/kong:2.7.2
+LABEL description="Alpine Kong 2.7.2 with OIDC"
+WORKDIR /kong
+USER root
+
+RUN apk update && apk add luarocks \
+	curl \
+	tar \
+	git \
+	gcc \
+	musl-dev \
+	libc-dev
+
+RUN apk upgrade
+
+# Install openoidc, openssl
+RUN luarocks install luaossl OPENSSL_DIR=/usr/local/kong CRYPTO_DIR=/usr/local/kong
+RUN luarocks install lua-resty-openidc
+
+USER kong
