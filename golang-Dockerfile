@@ -1,0 +1,19 @@
+FROM golang:1.20-alpine as builder
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+
+WORKDIR /go/src/github.com/pushm0v/kong-oidc-passport/
+RUN apk update && apk add --no-cache git gcompat
+COPY ./bwi-golang .
+
+RUN go build -a -installsuffix cgo -o bwi-golang .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+COPY --from=builder /go/src/github.com/pushm0v/kong-oidc-passport/bwi-golang ./bwi-golang
+
+CMD "./bwi-golang"
+
+EXPOSE 3000

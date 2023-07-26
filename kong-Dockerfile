@@ -16,5 +16,6 @@ RUN apk upgrade
 # Install openoidc, openssl
 RUN luarocks install luaossl OPENSSL_DIR=/usr/local/kong CRYPTO_DIR=/usr/local/kong
 RUN luarocks install lua-resty-openidc
+RUN luarocks install kong-oidc
 
 USER kong

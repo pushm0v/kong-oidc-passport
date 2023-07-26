@@ -59,6 +59,20 @@ services:
     networks:
       - bwi
 
+  golang:
+    build:
+      context: ./
+      dockerfile: golang-Dockerfile
+    image: bwi-golang
+    container_name: bwi-golang
+    restart: unless-stopped
+    volumes:
+      - ./bwi-golang/:/opt/bwi-golang
+    networks:
+      - bwi
+    ports:
+      - 3001:3000
+
   kong-migrate:
     build:
       context: ./
@@ -117,7 +131,7 @@ services:
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_PROXY_LISTEN: 0.0.0.0:8000, 0.0.0.0:8443 ssl
       KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
-
+      KONG_PLUGINS: oidc, oauth2
   konga:
     image: pantsel/konga
     ports:

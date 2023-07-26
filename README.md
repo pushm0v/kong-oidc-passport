@@ -13,3 +13,4 @@
 
 ### next time running
 - `docker-compose up -d`
+- If there's new migration, `make exec app=passport args="php artisan migrate"` & `make exec app=dashboard args="php artisan migrate"`
