@@ -11,7 +11,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		fmt.Printf("Headers : %+v", c.GetReqHeaders())
+		fmt.Printf("Headers : %+v \n", c.GetReqHeaders())
 		return c.SendString(`OK`)
 	})
 
